@@ -2,7 +2,6 @@ platform :ios, '11.0'
 use_modular_headers!
 use_frameworks! linkage: :static
 
-source 'git@git.17bdc.com:cocoapods/specs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'Example-iOS' do

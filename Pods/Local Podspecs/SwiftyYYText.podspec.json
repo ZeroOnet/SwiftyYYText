@@ -1,0 +1,17 @@
+{
+  "name": "SwiftyYYText",
+  "version": "0.1.0",
+  "summary": "简单说明 SwiftyYYText 的用途.",
+  "homepage": "https://git.17bdc.com/ios/SwiftyYYText",
+  "authors": {
+    "Shanbay iOS": "ios@shanbay.com"
+  },
+  "source": {
+    "git": "git@git.17bdc.com:ios/SwiftyYYText.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "11.0"
+  },
+  "source_files": "SwiftyYYText/Classes/**/*.{swift}"
+}

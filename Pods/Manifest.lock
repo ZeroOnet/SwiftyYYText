@@ -1,0 +1,16 @@
+PODS:
+  - SwiftyYYText (0.1.0)
+
+DEPENDENCIES:
+  - SwiftyYYText (from `./`)
+
+EXTERNAL SOURCES:
+  SwiftyYYText:
+    :path: "./"
+
+SPEC CHECKSUMS:
+  SwiftyYYText: acc20506ddf96606d67d8768239076b13ee4e919
+
+PODFILE CHECKSUM: 46ad05ebdc974949eee00734433e252a1bfeb3df
+
+COCOAPODS: 1.15.2
