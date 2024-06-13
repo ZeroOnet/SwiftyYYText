@@ -11,7 +11,8 @@ Pod::Spec.new do |s|
   s.source       = { :git => 'git@github.com:ZeroOnet/SwiftyYYText.git', :tag => s.version.to_s }
 
   s.requires_arc = true
-  s.source_files = 'SwiftyYYText/**/*.swift'
+  s.source_files = 'Sources/**/*.swift'
 
   s.frameworks = 'UIKit', 'CoreFoundation','CoreText', 'QuartzCore', 'Accelerate', 'MobileCoreServices'
 end
+

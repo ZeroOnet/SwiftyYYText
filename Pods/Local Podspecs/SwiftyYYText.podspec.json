@@ -1,17 +1,31 @@
 {
   "name": "SwiftyYYText",
-  "version": "0.1.0",
-  "summary": "简单说明 SwiftyYYText 的用途.",
-  "homepage": "https://git.17bdc.com/ios/SwiftyYYText",
+  "summary": "Powerful text framework for iOS to display and edit rich text.",
+  "version": "1.0.0",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
   "authors": {
-    "Shanbay iOS": "ios@shanbay.com"
+    "ZeroOnet": "zeroonetworkspace@gmail.com"
   },
-  "source": {
-    "git": "git@git.17bdc.com:ios/SwiftyYYText.git",
-    "tag": "0.1.0"
-  },
+  "social_media_url": "https://zeroonet.com",
+  "homepage": "https://github.com/ZeroOnet/SwiftyYYText",
   "platforms": {
     "ios": "11.0"
   },
-  "source_files": "SwiftyYYText/Classes/**/*.{swift}"
+  "source": {
+    "git": "git@github.com:ZeroOnet/SwiftyYYText.git",
+    "tag": "1.0.0"
+  },
+  "requires_arc": true,
+  "source_files": "Sources/**/*.swift",
+  "frameworks": [
+    "UIKit",
+    "CoreFoundation",
+    "CoreText",
+    "QuartzCore",
+    "Accelerate",
+    "MobileCoreServices"
+  ]
 }
