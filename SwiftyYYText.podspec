@@ -6,8 +6,8 @@ Pod::Spec.new do |s|
   s.authors      = { 'ZeroOnet' => 'zeroonetworkspace@gmail.com' }
   s.social_media_url = 'https://zeroonet.com'
   s.homepage     = 'https://github.com/ZeroOnet/SwiftyYYText'
-  s.platform     = :ios, '11.0'
-  s.ios.deployment_target = '11.0'
+  s.platform     = :ios, '13.0'
+  s.ios.deployment_target = '13.0'
   s.source       = { :git => 'git@github.com:ZeroOnet/SwiftyYYText.git', :tag => s.version.to_s }
 
   s.requires_arc = true

@@ -12,7 +12,7 @@
   "social_media_url": "https://zeroonet.com",
   "homepage": "https://github.com/ZeroOnet/SwiftyYYText",
   "platforms": {
-    "ios": "11.0"
+    "ios": "13.0"
   },
   "source": {
     "git": "git@github.com:ZeroOnet/SwiftyYYText.git",
