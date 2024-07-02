@@ -32,7 +32,7 @@ extension SYYable where Base: NSAttributedString {
         guard base.length > 0, location < base.length else { return nil }
         return base.attributes(at: location, effectiveRange: nil)
     }
-    
+
     /// Returns the value for the attribute with the specified name of the character at the specified index.
     /// - Parameters:
     ///   - attrName: The name of an attribute.
@@ -43,7 +43,7 @@ extension SYYable where Base: NSAttributedString {
         guard base.length > 0, location < base.length else { return nil }
         return base.attribute(attrName, at: location, effectiveRange: nil)
     }
-    
+
     /// Returns the font of the text.
     /// - Parameter location: The index at which to test for NSAttributedString.Key.font.
     /// - Returns: The font for the character at index.
@@ -57,7 +57,7 @@ extension SYYable where Base: NSAttributedString {
     func kern(at location: Int = 0) -> CGFloat? {
         attribute(.kern, at: location) as? CGFloat
     }
-    
+
     /// Returns the text color of the text.
     /// - Parameter location: The index at which to test for NSAttributedString.Key.foregroundColor.
     /// - Returns: The text color for the character at index.
@@ -85,14 +85,14 @@ extension SYYable where Base: NSAttributedString {
     func strokeColor(at location: Int = 0) -> UIColor? {
         attribute(.strokeColor, at: location) as? UIColor
     }
-    
+
     /// Returns the shadow of the text
     /// - Parameter location: The index at which to test for NSAttributedString.Key.shadow.
     /// - Returns: The shadow for the character at index.
     func shadow(at location: Int = 0) -> NSShadow? {
         attribute(.shadow, at: location) as? NSShadow
     }
-    
+
     /// Returns the strikethrough style of the text.
     /// - Parameter location: The index at which to test for NSAttributedString.Key.strikethroughStyle.
     /// - Returns: The strikethrough style for the character at index.
@@ -128,21 +128,21 @@ extension SYYable where Base: NSAttributedString {
         // TODO: - 存在系统限制，转换为实际语义下的枚举类型
         attribute(.ligature, at: location) as? Int
     }
-    
+
     /// Returns the effect of the text.
     /// - Parameter location: The index at which to test for NSAttributedString.Key.textEffect.
     /// - Returns: The effect for the character at index.
     func textEffect(at location: Int = 0) -> String? {
         attribute(.textEffect, at: location) as? String
     }
-    
+
     /// Retruns the vertical offset for the position of the text.
     /// - Parameter location: The index at which to test for NSAttributedString.Key.baselineOffset.
     /// - Returns: The offset from the baseline for the character at index.
     func baselineOffset(at location: Int = 0) -> CGFloat? {
         attribute(.baselineOffset, at: location) as? CGFloat
     }
-    
+
     /// Returns the paragraph style of the text.
     /// - Parameter location: The index at which to test for NSAttributedString.Key.paragraphStyle.
     /// - Returns: The paragraph style for the character at index.
@@ -211,7 +211,7 @@ extension SYYable where Base: NSAttributedString {
     func glyphTransform(at location: Int = 0) -> CGAffineTransform? {
         attribute(.syy.glyphTransform, at: location) as? CGAffineTransform
     }
-    
+
     /// Returns the plain text from a range.
     /// - Parameter range: The range at which to test for NSAttributedString.Key.syy.backedString.
     /// - Returns: The plain text at the range.

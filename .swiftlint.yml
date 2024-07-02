@@ -1,5 +1,5 @@
 included:
-  - SwiftyYYText
+  - Sources
 
 disabled_rules: # rule identifiers to exclude from running
   - nesting # 禁用嵌套限制
@@ -32,6 +32,7 @@ line_length: # 每一行长度限制
   warning: 120
   ignores_interpolated_strings: true # 忽略带插值的 string
   ignores_urls: true # 忽略 url
+  ignores_comments: true
 
 file_length: # 文件长度限制
   warning: 500

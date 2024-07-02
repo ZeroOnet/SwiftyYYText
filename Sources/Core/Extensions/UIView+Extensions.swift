@@ -49,7 +49,7 @@ extension SYYable where Base: UIView {
         point = to.convert(point, from: from)
         return vow.convert(point, from: to)
     }
-    
+
     ///  Converts a point from the coordinate system of a given view or window to that of the receiver.
     /// - Parameters:
     ///   - point: A point specified in the local coordinate system (bounds) of view.
@@ -65,7 +65,7 @@ extension SYYable where Base: UIView {
         point = to.convert(point, from: from)
         return base.convert(point, from: to)
     }
-    
+
     ///  Converts a rectangle from the receiver's coordinate system to that of another view or window.
     /// - Parameters:
     ///   - rect: A rectangle specified in the local coordinate system (bounds) of the receiver.
@@ -81,7 +81,7 @@ extension SYYable where Base: UIView {
         rect = to.convert(rect, from: from)
         return vow.convert(rect, from: to)
     }
-    
+
     ///  Converts a rectangle from the coordinate system of another view or window to that of the receiver.
     /// - Parameters:
     ///   - rect: A rectangle specified in the local coordinate system (bounds) of view.
