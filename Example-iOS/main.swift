@@ -4,10 +4,10 @@ UIApplicationMain(
     CommandLine.argc,
     CommandLine.unsafeArgv,
     nil,
-    NSStringFromClass(Dummy.self)
+    NSStringFromClass(AppDelegate.self)
 )
 
-class Dummy: NSObject, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(
@@ -15,9 +15,9 @@ class Dummy: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let home = storyboard.instantiateViewController(withIdentifier: "Home")
+        let navigationScene = storyboard.instantiateViewController(withIdentifier: "Navigation")
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = home
+        window.rootViewController = navigationScene
         window.makeKeyAndVisible()
         self.window = window
         return true

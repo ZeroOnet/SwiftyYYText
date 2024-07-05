@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "c_bridge.h"
 
 FOUNDATION_EXPORT double SwiftyYYTextVersionNumber;
 FOUNDATION_EXPORT const unsigned char SwiftyYYTextVersionString[];

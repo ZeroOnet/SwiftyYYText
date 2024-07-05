@@ -5,38 +5,36 @@
 //  Created by 李文康 on 2024/7/4.
 //
 
-protocol SYYAsyncLayerDisplayTaskable {
+protocol SYYAsyncLayerObservable: AnyObject {
     var willDisplay: ((CALayer) -> Void)? { get set }
     var display: ((_ context: CGContext, _ size: CGSize, _ isCancelled: () -> Bool) -> Void)? { get set }
     var didDisplay: ((_ layer: CALayer, _ isFinished: Bool) -> Void)? { get set }
 }
 
-extension SYYAsyncLayerDisplayTaskable {
+extension SYYAsyncLayerObservable {
     @discardableResult
-    mutating func onWillDisplay(_ willDisplay: @escaping (CALayer) -> Void) -> Self {
+    func onWillDisplay(_ willDisplay: @escaping (CALayer) -> Void) -> Self {
         self.willDisplay = willDisplay
         return self
     }
 
     @discardableResult
-    mutating func onDisplay(_ display: @escaping (_ context: CGContext, _ size: CGSize, _ isCancelled: () -> Bool) -> Void) -> Self {
+    func onDisplay(_ display: @escaping (_ context: CGContext, _ size: CGSize, _ isCancelled: () -> Bool) -> Void) -> Self {
         self.display = display
         return self
     }
 
     @discardableResult
-    mutating func onDidDisplay(_ didDisplay: @escaping (_ layer: CALayer, _ isFinished: Bool) -> Void) -> Self {
+    func onDidDisplay(_ didDisplay: @escaping (_ layer: CALayer, _ isFinished: Bool) -> Void) -> Self {
         self.didDisplay = didDisplay
         return self
     }
 }
 
-protocol SYYAsyncLayerDelegate {
-    var asyncDisplayTask: SYYAsyncLayerDisplayTaskable { get }
-}
-
 extension SYY {
     class AsyncLayer: CALayer {
+        weak var observer: SYYAsyncLayerObservable?
+
         override init() {
             super.init()
             _init()
@@ -68,16 +66,7 @@ extension SYY.AsyncLayer {
 
 extension SYY.AsyncLayer {
     private func _display() {
-        guard let task = (delegate as? SYYAsyncLayerDelegate)?.asyncDisplayTask else { return }
-
-        if task.display == nil {
-            task.willDisplay?(self)
-            contents = nil
-            task.didDisplay?(self, true)
-            return
-        }
-
-        task.willDisplay?(self)
+        observer?.willDisplay?(self)
         let sentinel = _sentinel
         let value = sentinel.value
         let isCancelled = {
@@ -85,16 +74,33 @@ extension SYY.AsyncLayer {
         }
         let size = bounds.size
         let isOpaque = isOpaque
-        let contentsScale = contentsScale
+        let scale = contentsScale
+        let backgroundColor = UIColor(cgColor: backgroundColor ?? UIColor.white.cgColor)
 
         if size.syy.isInvalid {
             // 'CFRelease' is unavailable: Core Foundation objects are automatically memory managed
             contents = nil
-            task.didDisplay?(self, true)
+            observer?.didDisplay?(self, true)
             return
         }
 
-
+        _QueueManager.display.async {
+            if isCancelled() { return }
+            let format = UIGraphicsImageRendererFormat()
+            format.opaque = isOpaque
+            format.scale = scale
+            let image = UIGraphicsImageRenderer(size: size, format: format)
+                .image { context in
+                    backgroundColor.setFill()
+                    UIBezierPath(rect: CGRect(origin: .zero, size: size)).fill()
+                    self.observer?.display?(context.cgContext, size, isCancelled)
+                }
+            DispatchQueue.main.async {
+                if isCancelled() { self.observer?.didDisplay?(self, false); return }
+                self.contents = image.cgImage
+                self.observer?.didDisplay?(self, true)
+            }
+        }
     }
 
     private func _cancelAsyncDisplay() {
@@ -104,27 +110,28 @@ extension SYY.AsyncLayer {
 
 extension SYY.AsyncLayer {
     private class _Sentinel {
-        private(set) var value = Int32.zero
+        private(set) var value = UInt64.zero
 
         @discardableResult
-        func increase() -> Int32 { OSAtomicIncrement32(&value) }
+        func increase() -> UInt64 { atomicIncrementOne(&value) }
     }
 }
 
 extension SYY.AsyncLayer {
     private struct _QueueManager {
         static var display: DispatchQueue {
-            // TODO: - 能否用位移运算替代模运算
-            let idx = Int(OSAtomicIncrement64(&_counter)) % _queueCount
+            let idx = Int(atomicIncrementOne(&_counter) % _queueCount)
             return _queues[idx]
         }
 
-        private static var _counter = Int64.zero
+        private init() {}
+
+        private static var _counter = UInt64.zero
 
         // Static members of class or struct are thread-safe for initializing.
-        private static let _queueCount: Int = {
-            let maxQueueCount = 16
-            let apc = ProcessInfo.processInfo.activeProcessorCount
+        private static let _queueCount: UInt64 = {
+            let maxQueueCount: UInt64 = 16
+            let apc = UInt64(ProcessInfo.processInfo.activeProcessorCount)
             return min(max(1, apc), maxQueueCount)
         }()
 
