@@ -52,7 +52,13 @@ extension SYY {
             super.setNeedsDisplay()
         }
 
-        override func display() { _display() }
+        override func display() { 
+            // https://github.com/ibireme/YYAsyncLayer/issues/18
+            // Assigning a value to this property causes the layer to use your image rather than create a separate backing store.
+            // Don't listen to our subclasses crazy ideas about setContents by going through super
+            super.contents = super.contents;
+            _display()
+        }
 
         private let _sentinel = _Sentinel()
     }
