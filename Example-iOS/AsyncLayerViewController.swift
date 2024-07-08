@@ -14,13 +14,23 @@ final class AsyncLayerViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .gray
 
-        var value: UInt64 = .max
-        print(atomicIncrementOne(&value))
-//        let layer = SYY.AsyncLayer()
-////        layer.backgroundColor = UIColor.red.cgColor
-//        layer.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
-        // TODO: 不调用 setNeedsDisplay layer 就不会调用 display？
-////        layer.setNeedsDisplay()
-//        view.layer.addSublayer(layer)
+        let layer = SYY.AsyncLayer()
+        layer.cornerRadius = 8
+        layer.backgroundColor = UIColor.red.cgColor
+        layer.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
+        // Important: Marks the layer’s contents as needing to be updated.
+        layer.setNeedsDisplay()
+        layer.delegate = self
+        view.layer.addSublayer(layer)
+    }
+}
+
+extension AsyncLayerViewController: SYYAsyncLayerDelegate, CALayerDelegate {
+    var task: any SYYAsyncLayerTaskable {
+        SYY.DefaultAsyncLayerTask().onDisplay { context, size, isCancelled in
+            guard isCancelled() == false else { return }
+            UIColor.green.setFill()
+            context.fill(CGRect(origin: .zero, size: CGSize(width: 50, height: 50)))
+        }
     }
 }

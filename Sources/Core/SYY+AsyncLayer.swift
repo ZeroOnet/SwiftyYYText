@@ -5,36 +5,8 @@
 //  Created by 李文康 on 2024/7/4.
 //
 
-protocol SYYAsyncLayerObservable: AnyObject {
-    var willDisplay: ((CALayer) -> Void)? { get set }
-    var display: ((_ context: CGContext, _ size: CGSize, _ isCancelled: () -> Bool) -> Void)? { get set }
-    var didDisplay: ((_ layer: CALayer, _ isFinished: Bool) -> Void)? { get set }
-}
-
-extension SYYAsyncLayerObservable {
-    @discardableResult
-    func onWillDisplay(_ willDisplay: @escaping (CALayer) -> Void) -> Self {
-        self.willDisplay = willDisplay
-        return self
-    }
-
-    @discardableResult
-    func onDisplay(_ display: @escaping (_ context: CGContext, _ size: CGSize, _ isCancelled: () -> Bool) -> Void) -> Self {
-        self.display = display
-        return self
-    }
-
-    @discardableResult
-    func onDidDisplay(_ didDisplay: @escaping (_ layer: CALayer, _ isFinished: Bool) -> Void) -> Self {
-        self.didDisplay = didDisplay
-        return self
-    }
-}
-
 extension SYY {
     class AsyncLayer: CALayer {
-        weak var observer: SYYAsyncLayerObservable?
-
         override init() {
             super.init()
             _init()
@@ -72,7 +44,8 @@ extension SYY.AsyncLayer {
 
 extension SYY.AsyncLayer {
     private func _display() {
-        observer?.willDisplay?(self)
+        let task = (delegate as? SYYAsyncLayerDelegate)?.task
+        task?.willDisplay?(self)
         let sentinel = _sentinel
         let value = sentinel.value
         let isCancelled = {
@@ -86,7 +59,7 @@ extension SYY.AsyncLayer {
         if size.syy.isInvalid {
             // 'CFRelease' is unavailable: Core Foundation objects are automatically memory managed
             contents = nil
-            observer?.didDisplay?(self, true)
+            task?.didDisplay?(self, true)
             return
         }
 
@@ -98,13 +71,13 @@ extension SYY.AsyncLayer {
             let image = UIGraphicsImageRenderer(size: size, format: format)
                 .image { context in
                     backgroundColor.setFill()
-                    UIBezierPath(rect: CGRect(origin: .zero, size: size)).fill()
-                    self.observer?.display?(context.cgContext, size, isCancelled)
+                    context.fill(.init(origin: .zero, size: size))
+                    task?.display?(context, size, isCancelled)
                 }
             DispatchQueue.main.async {
-                if isCancelled() { self.observer?.didDisplay?(self, false); return }
+                if isCancelled() { task?.didDisplay?(self, false); return }
                 self.contents = image.cgImage
-                self.observer?.didDisplay?(self, true)
+                task?.didDisplay?(self, true)
             }
         }
     }
