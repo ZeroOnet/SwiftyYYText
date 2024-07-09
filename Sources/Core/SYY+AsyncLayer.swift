@@ -97,13 +97,11 @@ extension SYY.AsyncLayer {
 }
 
 extension SYY.AsyncLayer {
-    private struct _QueueManager {
+    private enum _QueueManager {
         static var display: DispatchQueue {
             let idx = Int(atomicIncrementOne(&_counter) % _queueCount)
             return _queues[idx]
         }
-
-        private init() {}
 
         private static var _counter = UInt64.zero
 

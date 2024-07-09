@@ -6,7 +6,7 @@
 //
 
 extension SYY {
-    struct Transaction {
+    enum Transaction {
         typealias Target = AnyObject
 
         private static var _seeds: Set<_Seed> = {
