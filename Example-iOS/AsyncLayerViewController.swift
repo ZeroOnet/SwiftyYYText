@@ -13,16 +13,24 @@ final class AsyncLayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .gray
-
-        let layer = SYY.AsyncLayer()
-        layer.cornerRadius = 8
-        layer.backgroundColor = UIColor.red.cgColor
-        layer.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
-        // Important: Marks the layer’s contents as needing to be updated.
-        layer.setNeedsDisplay()
-        layer.delegate = self
-        view.layer.addSublayer(layer)
+        view.layer.addSublayer(_asyncLayer)
+        SYY.Transaction.commit(self, selector: #selector(_update))
     }
+
+    @objc
+    private func _update() {
+        // Important: Marks the layer’s contents as needing to be updated.
+        _asyncLayer.setNeedsDisplay()
+    }
+
+    private lazy var _asyncLayer: CALayer = {
+        let result = SYY.AsyncLayer()
+        result.cornerRadius = 8
+        result.backgroundColor = UIColor.red.cgColor
+        result.frame = CGRect(x: 100, y: 100, width: 100, height: 100)
+        result.delegate = self
+        return result
+    }()
 }
 
 extension AsyncLayerViewController: SYYAsyncLayerDelegate, CALayerDelegate {
