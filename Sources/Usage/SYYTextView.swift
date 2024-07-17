@@ -146,7 +146,7 @@ public final class SYYTextView: UIScrollView {
     /// The current text layout in text view. It can be used to query the text layout information.
     /// - Set a new value to this property also replaces most properties in this label.
     ///   Such as `text`, `color`, `attributedText`, `lineBreakMode`, `textContainerPath`, `exclusionPaths` and so on.
-    public var textLayout: SYYTextLayoutType?
+    public var textLayout: SYYTextLayoutable?
 
     /// The debug option to display CoreText layout result.
     public var debugOption: SYY.TextDebugOption?

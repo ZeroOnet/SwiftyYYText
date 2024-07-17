@@ -13,10 +13,10 @@ public protocol SYYTextParsable {
 
 }
 
-/// The SYYTextLayoutType declares a readonly type stores text layout result.
+/// The SYYTextLayoutable declares a readonly type stores text layout result.
 /// - All the property in this type is readonly, and should not be changed.
 /// - The methods in this type is thread-safe (except some of the draw methods).
-public protocol SYYTextLayoutType {
+public protocol SYYTextLayoutable {
 
 }
 

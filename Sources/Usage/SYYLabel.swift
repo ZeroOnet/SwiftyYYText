@@ -7,7 +7,19 @@
 
 @IBDesignable
 public final class SYYLabel: UIView {
-    /// The text displayed by the label. 
+    public override class var layerClass: AnyClass { SYY.AsyncLayer.self }
+
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        _init()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        _init()
+    }
+    
+    /// The text displayed by the label.
     /// - Default value is nil.
     /// - Set a new value to this property also replaces the text in ``attributedText``.
     /// - Get the value returns the plain text in ``attributedText``.
@@ -131,5 +143,12 @@ public final class SYYLabel: UIView {
     /// The current text layout in text view. It can be used to query the text layout information.
     /// - Set a new value to this property also replaces most properties in this label.
     ///   Such as `text`, `color`, `attributedText`, `lineBreakMode`, `textContainerPath`, `exclusionPaths` and so on.
-    public var textLayout: SYYTextLayoutType?
+    public var textLayout: SYYTextLayoutable?
+}
+
+extension SYYLabel {
+    private func _init() {
+        contentMode = .redraw
+        isAccessibilityElement = true
+    }
 }

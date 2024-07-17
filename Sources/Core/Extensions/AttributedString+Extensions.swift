@@ -255,12 +255,16 @@ extension SYYable where Base: NSMutableAttributedString {
 
 extension NSAttributedString.Key: SYYCompatible {}
 extension SYYable where Base == NSAttributedString.Key {
+    static let backedString = Base("com.swiftytext.attribute.backedString")
+    static let binding = Base("com.swiftytext.attribute.binding")
     static let shadow = Base("com.swiftytext.attribute.shadow")
     static let innerShadow = Base("com.swiftytext.attribute.innershadow")
     static let underline = Base("com.swiftytext.attribute.underline")
     static let strikethrough = Base("com.swiftytext.attribute.strikethrough")
     static let border = Base("com.swiftytext.attribute.border")
     static let backgroundBorder = Base("com.swiftytext.attribute.backgroundborder")
+    static let blockBorder = Base("com.swiftytext.attribute.blockborder")
+    static let attachment = Base("com.swiftytext.attribute.attachment")
+    static let highlight = Base("com.swiftytext.attribute.highlight")
     static let glyphTransform = Base("com.swiftytext.attribute.glyphtransform")
-    static let backedString = Base("com.swiftytext.attribute.backedString")
 }
